@@ -1,13 +1,10 @@
 package es.inditex.ecommerce;
 
-import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
-@SpringBootTest
-class InditexEcommerceApiApplicationTests {
+import es.inditex.ecommerce.api.InditexEcommerceApiApplication;
 
-	@Test
-	void contextLoads() {
-	}
+@SpringBootTest(classes = InditexEcommerceApiApplication.class)
+class InditexEcommerceApiApplicationTests {
 
 }
