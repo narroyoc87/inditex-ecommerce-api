@@ -56,9 +56,9 @@ public class ProductPriceControllerTest {
     @Test
     void notFindProductPrice_shouldReturnStatusOk() throws Exception {
     	final MvcResult result = mockMvc.perform( get( "/prices?date=2020-06-14 21:00:00&productId=35455&brandId=1" ))
-    			.andExpect( status().isOk() ).andReturn();
+    			.andExpect( status().isNotFound() ).andReturn();
     	final String content = result.getResponse().getContentAsString();
-    	assertFalse( content.contains( "\"price\":55.77" ) );
+    	assertTrue( content.isEmpty());
     }
     
     

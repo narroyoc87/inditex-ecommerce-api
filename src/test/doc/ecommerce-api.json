@@ -1,0 +1,76 @@
+openapi: 3.0.0
+info:
+  title: Inditex e-Commerce api
+  version: v1
+  description: Aplicación que gestiona la venta online de los productos del grupo Inditex
+servers:
+  - url: 'http://localhost:8080/ecommerce/api'
+paths:
+  '/prices':
+    get:
+      tags:
+      - "Prices"
+      summary: "obtain the final price of a product from a store at a specific time"
+      parameters:
+      - name: "date"
+        in: "query"
+        example: "2020-06-14 10:00:00"
+        schema:
+          type: "string"
+          format: "yyyy-MM-dd HH:mm:ss"
+        description: "Search date"
+        required: true
+      - name: "productId"
+        in: "query"
+        example: 35455
+        schema:
+          type: "integer"
+          format: "int64"
+        description: "Product identifier"
+        required: true
+      - name: "brandId"
+        in: "query"
+        example: 1
+        schema:
+          type: "integer"
+          format: "int64"
+        description: "Brand identifier"
+        required: true  
+      responses:
+        "200":
+          description: "Ok"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductPriceDTO'       
+        "404":
+          description: "Not found"
+components:
+  schemas:
+    ProductPriceDTO:
+      type: "object"
+      properties:
+        productId:
+          type: "integer"
+          format: "int64"
+          example: 35455
+        brandId:
+          type: "integer"
+          format: "int64"
+          example: 1
+        priceList:
+          type: "integer"
+          format: "int32"
+          example: 1
+        price:
+          type: "number"
+          format: "double"
+          example: 55.75  
+        startDatePrice:
+          type: "string"
+          format: "yyyy-MM-dd HH:mm:ss"
+          example: "2020-06-14 10:00:00"
+        endDatePrice:
+          type: "string"
+          format: "yyyy-MM-dd HH:mm:ss"
+          example: "2020-06-15 10:00:00"
