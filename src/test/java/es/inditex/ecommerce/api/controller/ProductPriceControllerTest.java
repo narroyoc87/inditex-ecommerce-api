@@ -1,6 +1,5 @@
 package es.inditex.ecommerce.api.controller;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
@@ -8,6 +7,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -47,7 +47,7 @@ public class ProductPriceControllerTest {
     
     @Test
     void findProductPrice_shouldReturnStatusOk() throws Exception {
-        when( productPriceService.findProductPrice(any(ProductPriceFilterDTO.class)) ).thenReturn( mockProductPriceDTO() );
+        when( productPriceService.findProductPrice(any(ProductPriceFilterDTO.class)) ).thenReturn( Optional.of(mockProductPriceDTO()) );
         final MvcResult result = mockMvc.perform( get( "/prices?date=2020-06-14 21:00:00&productId=35455&brandId=1" ))
                 .andExpect( status().isOk() ).andReturn();
         final String content = result.getResponse().getContentAsString();

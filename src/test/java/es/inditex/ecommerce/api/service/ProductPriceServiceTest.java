@@ -3,8 +3,7 @@ package es.inditex.ecommerce.api.service;
 import static es.inditex.ecommerce.api.service.ProductPriceServiceTestUtil.mockPrice;
 import static es.inditex.ecommerce.api.service.ProductPriceServiceTestUtil.mockProductPriceFilterDTO;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.when;
@@ -13,6 +12,7 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -53,8 +53,8 @@ public class ProductPriceServiceTest {
 	
 	@Test
 	public void shouldBeNull() {
-		ProductPriceDTO result = productPriceService.findProductPrice(mockProductPriceFilterDTO(LocalDateTime.now()));
-		assertNull(result);
+		Optional<ProductPriceDTO> result = productPriceService.findProductPrice(mockProductPriceFilterDTO(LocalDateTime.now()));
+		assertTrue(result.isEmpty());
 	}
 
 	@Test
@@ -62,9 +62,9 @@ public class ProductPriceServiceTest {
 		when(priceRepository.findProductPriceAtMoment(anyLong(), any(Date.class), anyLong()))
 				.thenReturn(List.of(mockPrice(1, START_DATE_RANGE1, END_DATE_RANGE1, PRIORITY_0, FINAL_PRICE_1),
 						mockPrice(2, START_DATE_RANGE2, END_DATE_RANGE2, PRIORITY_1, FINAL_PRICE_2)));
-		ProductPriceDTO result = productPriceService.findProductPrice(mockProductPriceFilterDTO(LocalDateTime.now()));
-		assertNotNull(result);
-		assertEquals(result.getPrice().compareTo(FINAL_PRICE_2), 0);
+		Optional<ProductPriceDTO> result = productPriceService.findProductPrice(mockProductPriceFilterDTO(LocalDateTime.now()));
+		assertTrue(result.isPresent());
+		assertEquals(result.get().getPrice().compareTo(FINAL_PRICE_2), 0);
 	}
 
 }
