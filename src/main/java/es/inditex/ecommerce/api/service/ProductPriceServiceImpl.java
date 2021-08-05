@@ -3,6 +3,7 @@ package es.inditex.ecommerce.api.service;
 import java.time.ZoneId;
 import java.util.Comparator;
 import java.util.Date;
+import java.util.Optional;
 
 import org.modelmapper.ModelMapper;
 
@@ -21,13 +22,13 @@ public class ProductPriceServiceImpl implements ProductPriceService {
 	}
 
 	@Override
-	public ProductPriceDTO findProductPrice(final ProductPriceFilterDTO productPriceFilterDTO) {
+	public Optional<ProductPriceDTO> findProductPrice(final ProductPriceFilterDTO productPriceFilterDTO) {
 		Date searchDate = Date.from(productPriceFilterDTO.getDate().atZone(ZoneId.systemDefault()).toInstant());
-		return priceRepository
+		return Optional.of(priceRepository
 				.findProductPriceAtMoment(productPriceFilterDTO.getBrandId(), searchDate,
 						productPriceFilterDTO.getProductId())
 				.stream().sorted(Comparator.comparing(Price::getPriority).reversed()).findFirst()
-				.map(price -> modelMapper.map(price, ProductPriceDTO.class)).orElse(null);
+				.map(price -> modelMapper.map(price, ProductPriceDTO.class))).orElse(Optional.empty());
 	}
 
 }

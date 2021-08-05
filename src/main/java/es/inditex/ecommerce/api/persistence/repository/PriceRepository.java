@@ -12,12 +12,12 @@ import es.inditex.ecommerce.api.persistence.entity.PricePK;
 
 @Repository
 public interface PriceRepository extends JpaRepository<Price, PricePK> {
-	List<Price> findByIdBrandIdAndIdStartDateBeforeAndIdEndDateAfterAndIdProductId(final Long brandId,
+	List<Price> findByIdBrandIdAndIdStartDateLessThanEqualAndIdEndDateGreaterThanEqualAndIdProductId(final Long brandId,
 			final Date compareDate, final Date sameDate, final Long productId);
 	@EntityGraph(value = "priceGraph")
 	default List<Price> findProductPriceAtMoment(final Long brandId, final Date compareDate,
 			 final Long productId) {
-		return findByIdBrandIdAndIdStartDateBeforeAndIdEndDateAfterAndIdProductId(brandId, compareDate, compareDate,
+		return findByIdBrandIdAndIdStartDateLessThanEqualAndIdEndDateGreaterThanEqualAndIdProductId(brandId, compareDate, compareDate,
 				productId);
 	}
 }
